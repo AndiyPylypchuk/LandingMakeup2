@@ -1,0 +1,68 @@
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="container hero__content">
+    <span class="hero__badge">Makeup Artist · Чернівці</span>
+    <h1 class="hero__title">Краса, що підкреслює<br><em>твою унікальність</em></h1>
+    <p class="hero__sub">Професійний макіяж для весілля, вечірніх заходів та повсякденного образу. Кожний клієнт — це особлива історія краси.</p>
+    <div class="hero__actions">
+      <a routerLink="/contacts" class="btn btn--primary">Записатись зараз</a>
+      <a routerLink="/services" class="btn btn--ghost">Переглянути послуги</a>
+    </div>
+  </div>
+  <div class="hero__scroll-hint" aria-hidden="true">
+    <span></span>
+  </div>
+</section>
+
+<!-- ABOUT TEASER -->
+<section class="section about-teaser">
+  <div class="container about-teaser__inner">
+    <div class="about-teaser__image">
+      <div class="img-placeholder img-placeholder--portrait">
+        <span>Фото</span>
+      </div>
+    </div>
+    <div class="about-teaser__text">
+      <span class="section__label">Про мене</span>
+      <h2 class="section__title">Анна Пилипчук — ваш особистий візажист</h2>
+      <p>Понад 5 років досвіду в індустрії краси. Спеціалізуюсь на весільних образах, вечірньому та денному макіяжі. Постійно навчаюсь та вдосконалюю техніки, щоб пропонувати вам найкраще.</p>
+      <p>Мій підхід — індивідуальний підбір макіяжу під кожен тип обличчя та шкіри. Результат — образ, який підкреслює вашу природну красу.</p>
+      <a routerLink="/about" class="btn btn--outline">Дізнатись більше</a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES TEASER -->
+<section class="section services-teaser">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__label">Послуги</span>
+      <h2 class="section__title">Що я пропоную</h2>
+      <p class="section__desc">Повний спектр послуг макіяжу для будь-якого приводу</p>
+    </div>
+    <div class="services-grid">
+      @for (s of services; track s.title) {
+        <div class="service-card">
+          <div class="service-card__icon">{{ s.icon }}</div>
+          <h3 class="service-card__title">{{ s.title }}</h3>
+          <p class="service-card__desc">{{ s.desc }}</p>
+        </div>
+      }
+    </div>
+    <div class="section__cta">
+      <a routerLink="/services" class="btn btn--outline">Всі послуги та ціни</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container cta-banner__inner">
+    <div>
+      <h2 class="cta-banner__title">Готові до вашого ідеального образу?</h2>
+      <p class="cta-banner__sub">Запишіться зараз і отримайте безкоштовну консультацію</p>
+    </div>
+    <a routerLink="/contacts" class="btn btn--primary">Записатись</a>
+  </div>
+</section>

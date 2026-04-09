@@ -1,0 +1,104 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="section__label">Контакти</span>
+    <h1 class="page-hero__title">Зв'яжіться зі мною</h1>
+    <p class="page-hero__sub">Запишіться на консультацію або поставте будь-яке питання</p>
+  </div>
+</section>
+
+<section class="section contacts-section">
+  <div class="container contacts-section__inner">
+
+    <!-- Contact info -->
+    <div class="contact-info">
+      <h2 class="contact-info__title">Мої контакти</h2>
+
+      <div class="contact-list">
+        <a href="tel:+380XXXXXXXXX" class="contact-item">
+          <span class="contact-item__icon">📱</span>
+          <div>
+            <div class="contact-item__label">Телефон / Viber</div>
+            <div class="contact-item__val">+380 XX XXX XX XX</div>
+          </div>
+        </a>
+        <a href="mailto:pylyp69de@gmail.com" class="contact-item">
+          <span class="contact-item__icon">✉️</span>
+          <div>
+            <div class="contact-item__label">Email</div>
+            <div class="contact-item__val">pylyp69de&#64;gmail.com</div>
+          </div>
+        </a>
+        <a href="https://t.me/anna_makeup_ua" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span class="contact-item__icon">✈️</span>
+          <div>
+            <div class="contact-item__label">Telegram</div>
+            <div class="contact-item__val">&#64;anna_makeup_ua</div>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/anna.pylypchuk.makeup" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span class="contact-item__icon">📷</span>
+          <div>
+            <div class="contact-item__label">Instagram</div>
+            <div class="contact-item__val">&#64;anna.pylypchuk.makeup</div>
+          </div>
+        </a>
+      </div>
+
+      <p class="contact-info__note">📍 Чернівці (виїзд можливий)</p>
+      <p class="contact-info__note">🕐 Пн–Сб: 9:00 – 20:00</p>
+    </div>
+
+    <!-- Contact form -->
+    <div class="contact-form-wrap">
+      <h2 class="contact-form-wrap__title">Надіслати повідомлення</h2>
+
+      @if (status() === 'success') {
+        <div class="form-success">
+          <div class="form-success__icon">✅</div>
+          <h3>Дякую за повідомлення!</h3>
+          <p>Я зв'яжусь з вами найближчим часом.</p>
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="form">
+
+          <!-- Honeypot (hidden from real users) -->
+          <div class="form__honey" aria-hidden="true">
+            <input formControlName="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="form__field" [class.form__field--error]="isInvalid('name')">
+            <label class="form__label" for="f-name">Ваше ім'я *</label>
+            <input id="f-name" class="form__input" type="text" formControlName="name" placeholder="Наприклад: Олена" autocomplete="name" />
+            @if (isInvalid('name')) {
+              <span class="form__error">Введіть ваше ім'я (мінімум 2 символи)</span>
+            }
+          </div>
+
+          <div class="form__field" [class.form__field--error]="isInvalid('email')">
+            <label class="form__label" for="f-email">Email *</label>
+            <input id="f-email" class="form__input" type="email" formControlName="email" placeholder="your@email.com" autocomplete="email" />
+            @if (isInvalid('email')) {
+              <span class="form__error">Введіть коректний email</span>
+            }
+          </div>
+
+          <div class="form__field" [class.form__field--error]="isInvalid('message')">
+            <label class="form__label" for="f-msg">Повідомлення *</label>
+            <textarea id="f-msg" class="form__input form__textarea" formControlName="message" placeholder="Розкажіть про ваш захід, бажаний образ..."></textarea>
+            @if (isInvalid('message')) {
+              <span class="form__error">Введіть повідомлення (мінімум 10 символів)</span>
+            }
+          </div>
+
+          @if (status() === 'error') {
+            <div class="form__server-error">{{ errorMsg() }}</div>
+          }
+
+          <button type="submit" class="btn btn--primary form__submit" [disabled]="status() === 'sending'">
+            {{ status() === 'sending' ? 'Надсилається...' : 'Надіслати повідомлення' }}
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</section>

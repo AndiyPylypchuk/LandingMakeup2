@@ -1,0 +1,32 @@
+@if (loading()) {
+  <div class="funnel-loading">
+    <div class="spinner"></div>
+  </div>
+} @else if (notFound()) {
+  <app-not-found />
+} @else if (page(); as p) {
+  <div class="funnel-page">
+    <div class="funnel-page__inner container">
+      <h1 class="funnel-page__title">{{ p.title }}</h1>
+
+      <div class="funnel-video-wrap">
+        <iframe
+          [src]="embedUrl()"
+          class="funnel-video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          title="{{ p.title }}"
+        ></iframe>
+      </div>
+
+      @if (p.body_text) {
+        <div class="funnel-body">{{ p.body_text }}</div>
+      }
+
+      <a [href]="p.button_url" target="_blank" rel="noopener noreferrer" class="btn btn--primary funnel-cta">
+        {{ p.button_text }}
+      </a>
+    </div>
+  </div>
+}
