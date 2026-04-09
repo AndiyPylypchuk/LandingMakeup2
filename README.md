@@ -18,6 +18,7 @@ Production-ready Angular 19 SSR landing site with prerendering, SEO, funnel page
 8. [MariaDB Setup via phpMyAdmin](#8-mariadb-setup-via-phpmyadmin)
 9. [Funnel Pages (`/v/:slug`)](#9-funnel-pages-vslug)
 10. [Adding / Removing a Prerendered Route](#10-adding--removing-a-prerendered-route)
+11. [Local Mock Funnel Data](#11-local-mock-funnel-data)
 
 ---
 
@@ -68,7 +69,7 @@ npm test -- --watch=false --browsers=ChromeHeadless   # CI / single run
 │   ├── app/
 │   │   ├── pages/            # Route components (home, about, services, contacts, funnel, not-found)
 │   │   ├── shared/           # Header, Footer components
-│   │   ├── services/         # SeoService, FunnelService, ContactService
+│   │   ├── services/         # SeoService, FunnelService, ContactService, funnel.mock
 │   │   ├── app.routes.ts     # Route definitions
 │   │   ├── app.config.ts     # App-level providers (SSR, hydration, router)
 │   │   └── app.config.server.ts
@@ -352,4 +353,54 @@ npm run build
 ```
 
 Re-deploy the updated `dist/landing-makeup/browser/` output to your server.
+
+---
+
+## 11. Local Mock Funnel Data
+
+Testing funnel pages locally normally requires a running PHP back-end and a database. The dev environment ships with a mock dataset so you can preview funnel pages with `npm start` and no server setup at all.
+
+### How to enable
+
+Open `src/environments/environment.ts` and set:
+
+```ts
+mockFunnel: true,
+```
+
+This flag is already `true` in the development environment file and is explicitly set to `false` in the production environment file (`environment.production.ts`), so mocking is never active in production builds.
+
+### Available mock slugs
+
+| Slug | URL |
+|------|-----|
+| `test-offer` | `http://localhost:4200/v/test-offer` |
+
+### How it works
+
+- When `mockFunnel` is `true`, `FunnelService.getBySlug()` returns data from `src/app/services/funnel.mock.ts` via `of()` with a 300 ms simulated delay — no network request is made.
+- Any slug that is **not** in the mock map triggers a simulated 404, causing `FunnelComponent` to display the "Not Found" page exactly as it would in production.
+
+### Adding more mock slugs
+
+Edit `src/app/services/funnel.mock.ts` and add an entry to the `MOCK_FUNNELS` map:
+
+```ts
+[
+  'my-new-slug',
+  {
+    slug: 'my-new-slug',
+    title: 'My New Offer',
+    youtube_id: 'YouTube11CharID',
+    body_text: 'Promo text here.',
+    button_text: 'Написати в Telegram',
+    button_url: 'https://t.me/anna_makeup_ua',
+    is_active: true,
+  },
+],
+```
+
+Then visit `http://localhost:4200/v/my-new-slug`.
+
+---
 
