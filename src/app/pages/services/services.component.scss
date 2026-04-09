@@ -1,0 +1,88 @@
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.service-group {
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(180, 130, 80, 0.25);
+  }
+
+  &__icon {
+    font-size: 1.6rem;
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.75rem;
+  gap: 1rem;
+  transition: background 0.2s, border-color 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(180, 130, 80, 0.25);
+  }
+
+  &__name {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  &__duration {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem;
+
+    @media (max-width: 480px) { display: none; }
+  }
+
+  &__price {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-width: 90px;
+    text-align: right;
+  }
+}
+
+.booking-cta {
+  margin-top: 3rem;
+  text-align: center;
+
+  &__note {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+}
