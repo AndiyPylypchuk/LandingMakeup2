@@ -1,13 +1,12 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { NgClass } from '@angular/common';
 import { SeoService } from '../../services/seo.service';
 import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
 })
