@@ -46,13 +46,25 @@ const MAIL_TO   = process.env['MAIL_TO'] ?? 'pylyp69de@gmail.com';
 const MAIL_FROM = process.env['SMTP_USER'] ?? 'noreply@annapylypchuk.com';
 const SLUG_RE   = /^[a-z0-9-]{1,80}$/;
 
-// Safe email validation — avoids catastrophic backtracking (ReDoS)
+// Log a warning at startup if optional env vars are missing
+if (!process.env['MAIL_TO']) {
+  console.warn('[server] MAIL_TO not set — contact form emails will go to default address');
+}
+if (!process.env['SMTP_USER']) {
+  console.warn('[server] SMTP_USER not set — contact form email sending may fail');
+}
+
+// Safe email validation — checks structure without catastrophic backtracking
 function isValidEmail(value: string): boolean {
   const atIdx = value.lastIndexOf('@');
   if (atIdx < 1) return false;
   const local  = value.slice(0, atIdx);
   const domain = value.slice(atIdx + 1);
-  return local.length > 0 && domain.length > 2 && domain.includes('.');
+  const dotIdx = domain.lastIndexOf('.');
+  // domain must have a dot that isn't first/last, TLD must be at least 2 chars
+  if (dotIdx < 1 || dotIdx === domain.length - 1) return false;
+  const tld = domain.slice(dotIdx + 1);
+  return local.length > 0 && tld.length >= 2;
 }
 
 // ── Rate limiting for API routes ─────────────────────────────────────────────

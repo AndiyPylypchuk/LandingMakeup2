@@ -149,9 +149,9 @@ export const environment = {
 
 ---
 
-## 5. cPanel Deployment — Static Prerendered Output
+## 5. cPanel Deployment — Static Prerendered Output (Limited)
 
-> **Note:** This mode serves pre-rendered HTML only. The contact form and funnel pages require the Node.js SSR server (§6) to function — without it, API calls will fail. Use §6 for a fully working deployment.
+> **Note:** This mode serves pre-rendered HTML only. The contact form and funnel pages require the Node.js SSR server (§6) to function — without it, API calls will fail. Use §6 for a fully working production deployment.
 
 ### Steps
 
