@@ -28,6 +28,6 @@ export class FunnelService {
       }
       return throwError(() => new HttpErrorResponse({ status: 404, statusText: 'Not Found' }));
     }
-    return this.http.get<FunnelPage>(`${this.apiBase}/funnel.php?slug=${encodeURIComponent(slug)}`);
+    return this.http.get<FunnelPage>(`${this.apiBase}/funnel?slug=${encodeURIComponent(slug)}`);
   }
 }

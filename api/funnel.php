@@ -1,5 +1,11 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
+/**
+ * DEPRECATED — This PHP endpoint is no longer used.
+ * API is now handled by the Node.js/Express SSR server (src/server.ts).
+ * Endpoint: GET /api/funnel?slug=SLUG
+ * Kept for reference only.
+ */
+
 header('Access-Control-Allow-Origin: https://www.annapylypchuk.com');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');

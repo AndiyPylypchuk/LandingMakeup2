@@ -1,6 +1,6 @@
 # Anna Pylypchuk — Makeup Artist Landing Site (V2)
 
-Production-ready Angular 19 SSR landing site with prerendering, SEO, funnel pages, and a PHP/MariaDB back-end deployable to shared cPanel hosting.
+Production-ready Angular 19 SSR landing site with prerendering, SEO, funnel pages, and a Node.js/MariaDB back-end deployable to cPanel hosting via "Setup Node.js App".
 
 **Live domain:** https://www.annapylypchuk.com/
 
@@ -14,7 +14,7 @@ Production-ready Angular 19 SSR landing site with prerendering, SEO, funnel page
 4. [Environment Configuration](#4-environment-configuration)
 5. [cPanel Deployment — Static Prerendered Output](#5-cpanel-deployment--static-prerendered-output)
 6. [cPanel Deployment — SSR Node App](#6-cpanel-deployment--ssr-node-app)
-7. [PHP API Endpoints](#7-php-api-endpoints)
+7. [Node.js API Endpoints](#7-nodejs-api-endpoints)
 8. [MariaDB Setup via phpMyAdmin](#8-mariadb-setup-via-phpmyadmin)
 9. [Funnel Pages (`/v/:slug`)](#9-funnel-pages-vslug)
 10. [Adding / Removing a Prerendered Route](#10-adding--removing-a-prerendered-route)
@@ -84,11 +84,15 @@ npm test -- --watch=false --browsers=ChromeHeadless   # CI / single run
 │   ├── robots.txt            # Allows all, disallows /v/
 │   └── sitemap.xml           # Static sitemap for indexable routes
 ├── api/
-│   ├── contact.php           # POST /api/contact.php — contact form handler
-│   └── funnel.php            # GET  /api/funnel.php?slug=SLUG — funnel data
+│   ├── contact.php           # DEPRECATED — kept for reference only
+│   └── funnel.php            # DEPRECATED — kept for reference only
 └── database/
     └── schema.sql            # funnels table DDL + seed rows
 ```
+
+> **API** is now served directly by the Express SSR server (`src/server.ts`):
+> - `GET /api/funnel?slug=SLUG`
+> - `POST /api/contact`
 
 ---
 
@@ -136,19 +140,18 @@ Edit `src/environments/environment.production.ts` to change:
 ```ts
 export const environment = {
   production: true,
-  apiBase: '/api',                             // relative path to PHP endpoints
+  apiBase: '/api',                             // relative path to Node API endpoints
   canonicalBase: 'https://www.annapylypchuk.com', // canonical domain (no trailing slash)
 };
 ```
 
-> **`apiBase`** — keep `/api` when running on the same cPanel domain. Change to an absolute URL
-> (`https://www.annapylypchuk.com/api`) if Angular and the PHP files ever live on different origins.
+> **`apiBase`** — keep `/api` when the Angular app and the Node.js server run on the same origin (the recommended setup). The API routes `/api/funnel` and `/api/contact` are served directly by the Express SSR server.
 
 ---
 
 ## 5. cPanel Deployment — Static Prerendered Output
 
-Use this approach when your hosting plan does **not** support running Node.js processes 24/7 or you prefer the simplest possible setup. The site loads from pre-built HTML files and all dynamic behaviour (contact form, funnel pages) still relies on PHP.
+> **Note:** This mode serves pre-rendered HTML only. The contact form and funnel pages require the Node.js SSR server (§6) to function — without it, API calls will fail. Use §6 for a fully working deployment.
 
 ### Steps
 
@@ -161,7 +164,6 @@ The build output is in `dist/landing-makeup/browser/`.
 
 2. **Upload via cPanel File Manager** (or FTP/SFTP):
    - Upload the **contents** of `dist/landing-makeup/browser/` to `public_html/` (or your subdomain root).
-   - Upload `api/contact.php` and `api/funnel.php` to `public_html/api/`.
 
 3. **Create `.htaccess`** in `public_html/` (Angular handles routing client-side via the prerendered index fallback):
 
@@ -181,7 +183,7 @@ RewriteRule ^ index.html [L]
 
 ## 6. cPanel Deployment — SSR Node App
 
-Use this approach for true server-side rendering on every request (useful if content changes frequently). Requires cPanel with **"Setup Node.js App"** (Node.js Selector).
+**Recommended** — serves both the Angular SSR app and the Node.js API from a single Express process. Requires cPanel with **"Setup Node.js App"** (Node.js Selector).
 
 ### Build
 
@@ -214,46 +216,80 @@ Output directories:
    npm install --omit=dev
    ```
 
-4. Set environment variables in the cPanel Node.js App panel (or in a `.env` file read by the app):
+4. Set environment variables in the cPanel Node.js App panel:
 
-   ```
-   NODE_ENV=production
-   PORT=<assigned by cPanel>
-   DB_HOST=localhost
-   DB_NAME=cpanelusername_makeup
-   DB_USER=cpanelusername_dbuser
-   DB_PASS=your_db_password
-   ```
+   **Required — Database (MariaDB):**
 
-5. Upload API files:
-   - `api/contact.php` → `public_html/api/contact.php`
-   - `api/funnel.php`  → `public_html/api/funnel.php`
+   | Variable | Example value | Notes |
+   |----------|---------------|-------|
+   | `DB_HOST` | `localhost` | Usually `localhost` on cPanel |
+   | `DB_PORT` | `3306` | Default MariaDB port |
+   | `DB_NAME` | `cpaneluser_makeup` | Database name from cPanel |
+   | `DB_USER` | `cpaneluser_dbuser` | Database user from cPanel |
+   | `DB_PASS` | `your_db_password` | Database password |
 
-6. Create `.htaccess` in `public_html/` to proxy everything except `/api/` to the Node app:
+   **Required — SMTP Email (Nodemailer):**
+
+   | Variable | Example value | Notes |
+   |----------|---------------|-------|
+   | `SMTP_HOST` | `mail.annapylypchuk.com` | Your SMTP server hostname |
+   | `SMTP_PORT` | `587` | 587 = STARTTLS, 465 = SSL |
+   | `SMTP_SECURE` | `false` | `true` only for port 465 |
+   | `SMTP_USER` | `noreply@annapylypchuk.com` | SMTP login |
+   | `SMTP_PASS` | `your_smtp_password` | SMTP password |
+   | `MAIL_TO` | `pylyp69de@gmail.com` | Recipient of contact form emails |
+
+   > **If SMTP is not configured** the contact form POST will return a 500 error. Set at least `SMTP_HOST`, `SMTP_USER`, and `SMTP_PASS` for email to work.
+
+   **Other:**
+
+   | Variable | Example value |
+   |----------|---------------|
+   | `NODE_ENV` | `production` |
+   | `PORT` | assigned by cPanel automatically |
+
+5. Create `.htaccess` in `public_html/` to proxy all traffic to the Node SSR server:
 
    ```apache
    RewriteEngine On
 
-   # Pass PHP API calls to Apache/PHP directly
-   RewriteRule ^api/ - [L]
-
-   # Proxy everything else to the Node SSR server
+   # Proxy all requests to the Node SSR server (serves both the app and /api/*)
    RewriteRule ^(.*)$ http://127.0.0.1:<NODE_PORT>/$1 [P,L]
    ```
 
    > Replace `<NODE_PORT>` with the port shown in the cPanel Node.js App panel.
 
-7. Click **Restart** in the Node.js App panel.
+6. Click **Restart** in the Node.js App panel.
 
 ---
 
-## 7. PHP API Endpoints
+## 7. Node.js API Endpoints
 
-Both endpoints live in the `api/` directory and are deployed to `public_html/api/` on cPanel.
+Both API routes are implemented in `src/server.ts` and served by the Express SSR server.
 
-### `POST /api/contact.php`
+### `GET /api/funnel?slug=SLUG`
 
-Accepts `application/json` or `application/x-www-form-urlencoded`.
+Returns the funnel row as JSON, or `404` if the slug is missing or `is_active = 0`.
+
+**Response shape:**
+
+```json
+{
+  "slug": "test-offer",
+  "title": "My Funnel Title",
+  "youtube_id": "dQw4w9WgXcQ",
+  "body_text": "Optional promo text.",
+  "button_text": "Написати в Telegram",
+  "button_url": "https://t.me/anna_makeup_ua",
+  "is_active": true
+}
+```
+
+**Database credentials** are read from environment variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`). See §6 for the full list.
+
+### `POST /api/contact`
+
+Accepts `application/json`.
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -262,15 +298,11 @@ Accepts `application/json` or `application/x-www-form-urlencoded`.
 | `message` | string | Required, min 10 chars |
 | `website` | string | Honeypot — must be empty |
 
-Returns `{"success": true, "message": "..."}` or a 4xx error with `{"success": false, "message": "..."}`.
+Returns `{"success": true, "message": "..."}` or a 4xx/5xx error with `{"success": false, "message": "..."}`.
 
-**CORS** — only `https://www.annapylypchuk.com` is allowed. To change the allowed origin, edit the first `header()` call in `api/contact.php`.
+**SMTP credentials** are read from environment variables (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `MAIL_TO`). See §6 for the full list.
 
-### `GET /api/funnel.php?slug=SLUG`
-
-Returns the funnel row as JSON, or `404` if the slug is missing or `is_active = 0`.
-
-**Database credentials** are read from environment variables (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`). Fallback values in the file are intentionally dummy strings — always set real values via cPanel environment variables or a `.env` loader.
+> **Note:** The `api/contact.php` and `api/funnel.php` files are kept for reference only and are **not** used by the application. Do not deploy them to `public_html/api/` — the Node.js server handles all `/api/*` requests.
 
 ---
 
@@ -297,7 +329,7 @@ Funnel pages are **intentionally non-indexed**:
 ### How `/v/:slug` works
 
 1. The Angular router loads `FunnelComponent` for any `/v/<slug>` path.
-2. On init, the component calls `GET /api/funnel.php?slug=<slug>`.
+2. On init, the component calls `GET /api/funnel?slug=<slug>` (served by the Express SSR server).
 3. If the API returns 404 or the slug is inactive, the component redirects to the 404 page.
 4. Otherwise it renders: YouTube embed, body text, and a CTA button linking to the Telegram URL stored in the DB.
 
