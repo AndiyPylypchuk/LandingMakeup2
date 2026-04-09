@@ -1,0 +1,85 @@
+.footer {
+  background: #060310;
+  padding-top: 3rem;
+  margin-top: 4rem;
+
+  &__inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  &__tagline {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  &__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+    }
+  }
+
+  &__link {
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--gold);
+    }
+  }
+
+  &__social {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &__social-link {
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--gold);
+    }
+  }
+
+  &__copy {
+    padding: 1.25rem 0;
+    text-align: center;
+
+    p {
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 0.8rem;
+      margin: 0;
+    }
+  }
+}

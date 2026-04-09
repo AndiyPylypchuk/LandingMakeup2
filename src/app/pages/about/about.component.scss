@@ -1,0 +1,84 @@
+.about-main {
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 4rem;
+    align-items: start;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  &__content {
+    p {
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .btn { margin-top: 1.5rem; }
+  }
+}
+
+.skills {
+  margin: 1.5rem 0;
+
+  &__title {
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+.tag {
+  background: rgba(180, 130, 80, 0.12);
+  border: 1px solid rgba(180, 130, 80, 0.3);
+  border-radius: 100px;
+  padding: 0.25rem 0.85rem;
+  font-size: 0.8rem;
+  color: var(--gold);
+}
+
+.values {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+}
+
+.value-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1rem;
+  padding: 1.75rem 1.5rem;
+
+  &__icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  h3 {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
