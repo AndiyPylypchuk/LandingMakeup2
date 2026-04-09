@@ -4,7 +4,8 @@
   </div>
 } @else if (notFound()) {
   <app-not-found />
-} @else if (page(); as p) {
+} @else {
+  @if (page(); as p) {
   <div class="funnel-page">
     <div class="funnel-page__inner container">
       <h1 class="funnel-page__title">{{ p.title }}</h1>
@@ -29,4 +30,5 @@
       </a>
     </div>
   </div>
+  }
 }
