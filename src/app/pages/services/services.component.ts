@@ -14,46 +14,46 @@ export class ServicesComponent implements OnInit {
 
   services = [
     {
-      category: 'Весільний макіяж',
+      category: 'Bridal makeup',
       icon: '💍',
       items: [
-        { name: 'Весільний макіяж (наречена)', price: '1 500 грн', duration: '90 хв' },
-        { name: 'Пробний весільний макіяж', price: '1 200 грн', duration: '90 хв' },
-        { name: 'Макіяж для подружок нареченої', price: '900 грн', duration: '60 хв' },
+        { name: 'Bridal makeup (bride)', price: '1,500 UAH', duration: '90 min' },
+        { name: 'Bridal trial makeup', price: '1,200 UAH', duration: '90 min' },
+        { name: 'Bridesmaid makeup', price: '900 UAH', duration: '60 min' },
       ],
     },
     {
-      category: 'Вечірній макіяж',
+      category: 'Evening makeup',
       icon: '✨',
       items: [
-        { name: 'Вечірній макіяж', price: '800 грн', duration: '60 хв' },
-        { name: 'Макіяж на випускний', price: '850 грн', duration: '60 хв' },
-        { name: 'Святковий макіяж', price: '750 грн', duration: '55 хв' },
+        { name: 'Evening makeup', price: '800 UAH', duration: '60 min' },
+        { name: 'Prom makeup', price: '850 UAH', duration: '60 min' },
+        { name: 'Holiday makeup', price: '750 UAH', duration: '55 min' },
       ],
     },
     {
-      category: 'Денний макіяж',
+      category: 'Day makeup',
       icon: '🌸',
       items: [
-        { name: 'Денний / повсякденний макіяж', price: '600 грн', duration: '45 хв' },
-        { name: 'Натуральний макіяж', price: '550 грн', duration: '40 хв' },
-        { name: 'Макіяж для ділових заходів', price: '650 грн', duration: '50 хв' },
+        { name: 'Day / everyday makeup', price: '600 UAH', duration: '45 min' },
+        { name: 'Natural makeup', price: '550 UAH', duration: '40 min' },
+        { name: 'Business event makeup', price: '650 UAH', duration: '50 min' },
       ],
     },
     {
-      category: 'Фото та відео',
+      category: 'Photo and video',
       icon: '📸',
       items: [
-        { name: 'Фотомакіяж', price: '900 грн', duration: '60 хв' },
-        { name: 'Макіяж для відеозйомки', price: '950 грн', duration: '70 хв' },
+        { name: 'Photo makeup', price: '900 UAH', duration: '60 min' },
+        { name: 'Video shoot makeup', price: '950 UAH', duration: '70 min' },
       ],
     },
   ];
 
   ngOnInit(): void {
     this.seo.setPage({
-      title: 'Послуги та ціни',
-      description: 'Ціни на послуги візажиста Анни Пилипчук: весільний макіяж від 1500 грн, вечірній від 800 грн. Чернівці.',
+      title: 'Makeup Services',
+      description: 'Explore bridal, fashion week, event makeup, makeup team services, and beauty education by Anna Pylypchuk in Düsseldorf, NRW.',
     });
   }
 }

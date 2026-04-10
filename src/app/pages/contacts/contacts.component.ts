@@ -27,8 +27,8 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit(): void {
     this.seo.setPage({
-      title: 'Контакти',
-      description: 'Зв\'яжіться з візажистом Анною Пилипчук. Запис на макіяж у Чернівцях. Телефон, Telegram, Instagram.',
+      title: 'Contacts',
+      description: 'Contact Anna Pylypchuk, a professional makeup artist in Düsseldorf, NRW for bridal, fashion week, event makeup, makeup team bookings, and courses.',
     });
   }
 
@@ -54,12 +54,12 @@ export class ContactsComponent implements OnInit {
           this.form.reset();
         } else {
           this.status.set('error');
-          this.errorMsg.set(res.message || 'Щось пішло не так. Спробуйте ще раз.');
+          this.errorMsg.set(res.message || 'Something went wrong. Please try again.');
         }
       },
       error: () => {
         this.status.set('error');
-        this.errorMsg.set('Помилка з\'єднання. Будь ласка, спробуйте пізніше.');
+        this.errorMsg.set('Connection error. Please try again later.');
       },
     });
   }

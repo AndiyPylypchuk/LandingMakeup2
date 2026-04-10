@@ -8,9 +8,9 @@ import { RouterLink } from '@angular/router';
   template: `
     <div class="not-found">
       <div class="not-found__code">404</div>
-      <h1 class="not-found__title">Сторінку не знайдено</h1>
-      <p class="not-found__desc">На жаль, запитана сторінка не існує або була переміщена.</p>
-      <a routerLink="/" class="btn btn--outline">На головну</a>
+      <h1 class="not-found__title">Page not found</h1>
+      <p class="not-found__desc">Sorry, the page you requested does not exist or has been moved.</p>
+      <a routerLink="/" class="btn btn--outline">Back to home</a>
     </div>
   `,
   styles: [`

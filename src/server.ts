@@ -125,15 +125,15 @@ app.post('/api/contact', contactLimiter, async (req: Request, res: Response) => 
   const messageTrimmed = String(message ?? '').trim();
 
   if (!nameTrimmed || !emailTrimmed || !messageTrimmed) {
-    res.status(422).json({ success: false, message: 'Заповніть всі поля.' });
+    res.status(422).json({ success: false, message: 'Please fill in all fields.' });
     return;
   }
   if (!isValidEmail(emailTrimmed)) {
-    res.status(422).json({ success: false, message: 'Невірний email.' });
+    res.status(422).json({ success: false, message: 'Invalid email address.' });
     return;
   }
   if (messageTrimmed.length < 10) {
-    res.status(422).json({ success: false, message: 'Повідомлення занадто коротке.' });
+    res.status(422).json({ success: false, message: 'Message is too short.' });
     return;
   }
 
@@ -142,13 +142,13 @@ app.post('/api/contact', contactLimiter, async (req: Request, res: Response) => 
       from:    `"Landing Form" <${MAIL_FROM}>`,
       to:      MAIL_TO,
       replyTo: emailTrimmed,
-      subject: `Нове повідомлення від ${nameTrimmed}`,
-      text:    `Ім'я: ${nameTrimmed}\nEmail: ${emailTrimmed}\n\nПовідомлення:\n${messageTrimmed}`,
+      subject: `New message from ${nameTrimmed}`,
+      text:    `Name: ${nameTrimmed}\nEmail: ${emailTrimmed}\n\nMessage:\n${messageTrimmed}`,
     });
-    res.json({ success: true, message: 'Повідомлення надіслано!' });
+    res.json({ success: true, message: 'Message sent successfully!' });
   } catch (err) {
     console.error('[/api/contact] SMTP error:', err);
-    res.status(500).json({ success: false, message: 'Помилка відправки. Спробуйте пізніше.' });
+    res.status(500).json({ success: false, message: 'Sending failed. Please try again later.' });
   }
 });
 

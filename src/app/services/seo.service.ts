@@ -19,7 +19,7 @@ export class SeoService {
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
 
-  private readonly siteName = 'Anna Pylypchuk — Makeup Artist';
+  private readonly siteName = 'Anna Pylypchuk Makeup Artist Düsseldorf';
   private readonly canonicalBase = environment.canonicalBase;
 
   constructor() {
@@ -36,6 +36,8 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:title', content: fullTitle });
     this.meta.updateTag({ property: 'og:description', content: cfg.description });
     this.meta.updateTag({ property: 'og:type', content: 'website' });
+    this.meta.updateTag({ property: 'og:site_name', content: this.siteName });
+    this.meta.updateTag({ property: 'og:locale', content: 'en_DE' });
     this.meta.updateTag({ property: 'og:url', content: this.currentUrl() });
     this.meta.updateTag({ property: 'og:image', content: `${this.canonicalBase}/assets/images/og-image.jpg` });
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
@@ -74,17 +76,43 @@ export class SeoService {
   private injectOrganizationJsonLd(): void {
     const org = {
       '@context': 'https://schema.org',
-      '@type': ['Organization', 'LocalBusiness'],
+      '@type': ['ProfessionalService', 'LocalBusiness', 'Organization'],
       name: 'Anna Pylypchuk Makeup Artist',
       url: this.canonicalBase,
       logo: `${this.canonicalBase}/assets/images/logo.png`,
-      description: 'Професійний візажист Анна Пилипчук. Весільний, вечірній та денний макіяж у Чернівцях.',
+      image: `${this.canonicalBase}/assets/images/og-image.jpg`,
+      description: 'Professional makeup artist in Düsseldorf, NRW offering bridal, fashion week, event makeup, makeup team services, courses, and makeup study support.',
+      slogan: 'Professional bridal, fashion week, and event makeup in Düsseldorf NRW',
       email: 'pylyp69de@gmail.com',
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Чернівці',
-        addressCountry: 'UA',
+        addressLocality: 'Düsseldorf',
+        addressRegion: 'NRW',
+        addressCountry: 'DE',
       },
+      areaServed: [
+        {
+          '@type': 'City',
+          name: 'Düsseldorf',
+        },
+        {
+          '@type': 'AdministrativeArea',
+          name: 'North Rhine-Westphalia',
+        },
+        {
+          '@type': 'Country',
+          name: 'Germany',
+        },
+      ],
+      serviceType: [
+        'Bridal makeup',
+        'Fashion week makeup',
+        'Event makeup',
+        'Professional makeup artist',
+        'Makeup team',
+        'Makeup courses',
+        'Makeup study',
+      ],
       sameAs: [
         'https://www.instagram.com/anna.pylypchuk.makeup',
         'https://t.me/anna_makeup_ua',

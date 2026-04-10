@@ -13,14 +13,14 @@ export class AboutComponent implements OnInit {
   private readonly seo = inject(SeoService);
 
   skills = [
-    'Весільний макіяж', 'Вечірній макіяж', 'Денний макіяж',
-    'Фотомакіяж', 'Корекція брів', 'Airbrush техніка',
+    'Bridal makeup', 'Evening makeup', 'Day makeup',
+    'Photo makeup', 'Brow correction', 'Airbrush technique',
   ];
 
   ngOnInit(): void {
     this.seo.setPage({
-      title: 'Про мене',
-      description: 'Анна Пилипчук — професійний візажист з Чернівців. Дізнайтесь про мій досвід, навчання та підхід до роботи.',
+      title: 'About Anna Pylypchuk',
+      description: 'Learn more about Anna Pylypchuk, a professional makeup artist in Düsseldorf, her experience, training, makeup courses, and creative approach.',
     });
   }
 }

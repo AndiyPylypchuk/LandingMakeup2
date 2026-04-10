@@ -6,13 +6,13 @@
     </a>
 
     <nav class="nav" [class.nav--open]="menuOpen()">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav__link" (click)="closeMenu()">Головна</a>
-      <a routerLink="/about" routerLinkActive="active" class="nav__link" (click)="closeMenu()">Про мене</a>
-      <a routerLink="/services" routerLinkActive="active" class="nav__link" (click)="closeMenu()">Послуги</a>
-      <a routerLink="/contacts" routerLinkActive="active" class="nav__link" (click)="closeMenu()">Контакти</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav__link" (click)="closeMenu()">Home</a>
+      <a routerLink="/about" routerLinkActive="active" class="nav__link" (click)="closeMenu()">About</a>
+      <a routerLink="/services" routerLinkActive="active" class="nav__link" (click)="closeMenu()">Services</a>
+      <a routerLink="/contacts" routerLinkActive="active" class="nav__link" (click)="closeMenu()">Contacts</a>
     </nav>
 
-    <a routerLink="/contacts" class="btn btn--outline header__cta" (click)="closeMenu()">Записатись</a>
+    <a routerLink="/contacts" class="btn btn--outline header__cta" (click)="closeMenu()">Book now</a>
 
     <button class="burger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-label="Toggle menu">
       <span></span><span></span><span></span>

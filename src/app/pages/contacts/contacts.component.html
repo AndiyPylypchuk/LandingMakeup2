@@ -1,8 +1,8 @@
 <section class="page-hero">
   <div class="container">
-    <span class="section__label">Контакти</span>
-    <h1 class="page-hero__title">Зв'яжіться зі мною</h1>
-    <p class="page-hero__sub">Запишіться на консультацію або поставте будь-яке питання</p>
+    <span class="section__label">Contacts</span>
+    <h1 class="page-hero__title">Get in touch</h1>
+    <p class="page-hero__sub">Book a consultation or ask any question</p>
   </div>
 </section>
 
@@ -11,52 +11,58 @@
 
     <!-- Contact info -->
     <div class="contact-info">
-      <h2 class="contact-info__title">Мої контакти</h2>
+      <h2 class="contact-info__title">My contact details</h2>
 
       <div class="contact-list">
-        <a href="tel:+380XXXXXXXXX" class="contact-item">
+        <a href="tel:+491605434815" class="contact-item">
           <span class="contact-item__icon">📱</span>
           <div>
-            <div class="contact-item__label">Телефон / Viber</div>
-            <div class="contact-item__val">+380 XX XXX XX XX</div>
+            <div class="contact-item__label">Phone</div>
+            <div class="contact-item__val">+49 160 5434815</div>
           </div>
         </a>
-        <a href="mailto:pylyp69de@gmail.com" class="contact-item">
+        <a href="mailto:annazagika@gmail.com" class="contact-item">
           <span class="contact-item__icon">✉️</span>
           <div>
             <div class="contact-item__label">Email</div>
-            <div class="contact-item__val">pylyp69de&#64;gmail.com</div>
+            <div class="contact-item__val">annazagika&#64;gmail.com</div>
           </div>
         </a>
-        <a href="https://t.me/anna_makeup_ua" target="_blank" rel="noopener noreferrer" class="contact-item">
+        <a href="https://wa.me/491605434815" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span class="contact-item__icon">✈️</span>
+          <div>
+            <div class="contact-item__label">WhatsApp</div>
+            <div class="contact-item__val">+49 160 5434815</div>
+          </div>
+        </a>
+        <a href="https://t.me/Anna_Pylypchuk" target="_blank" rel="noopener noreferrer" class="contact-item">
           <span class="contact-item__icon">✈️</span>
           <div>
             <div class="contact-item__label">Telegram</div>
-            <div class="contact-item__val">&#64;anna_makeup_ua</div>
+            <div class="contact-item__val">&#64;Anna_Pylypchuk</div>
           </div>
         </a>
-        <a href="https://www.instagram.com/anna.pylypchuk.makeup" target="_blank" rel="noopener noreferrer" class="contact-item">
+        <a href="https://www.instagram.com/stylist_annapylypchuk" target="_blank" rel="noopener noreferrer" class="contact-item">
           <span class="contact-item__icon">📷</span>
           <div>
             <div class="contact-item__label">Instagram</div>
-            <div class="contact-item__val">&#64;anna.pylypchuk.makeup</div>
+            <div class="contact-item__val">&#64;stylist_annapylypchuk</div>
           </div>
         </a>
       </div>
 
-      <p class="contact-info__note">📍 Чернівці (виїзд можливий)</p>
-      <p class="contact-info__note">🕐 Пн–Сб: 9:00 – 20:00</p>
+      <p class="contact-info__note">📍 Düsseldorf (travel available)</p>
     </div>
 
     <!-- Contact form -->
     <div class="contact-form-wrap">
-      <h2 class="contact-form-wrap__title">Надіслати повідомлення</h2>
+      <h2 class="contact-form-wrap__title">Send a message</h2>
 
       @if (status() === 'success') {
         <div class="form-success">
           <div class="form-success__icon">✅</div>
-          <h3>Дякую за повідомлення!</h3>
-          <p>Я зв'яжусь з вами найближчим часом.</p>
+          <h3>Thank you for your message!</h3>
+          <p>I will get back to you as soon as possible.</p>
         </div>
       } @else {
         <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="form">
@@ -67,10 +73,10 @@
           </div>
 
           <div class="form__field" [class.form__field--error]="isInvalid('name')">
-            <label class="form__label" for="f-name">Ваше ім'я *</label>
-            <input id="f-name" class="form__input" type="text" formControlName="name" placeholder="Наприклад: Олена" autocomplete="name" />
+            <label class="form__label" for="f-name">Your name *</label>
+            <input id="f-name" class="form__input" type="text" formControlName="name" placeholder="For example: Olena" autocomplete="name" />
             @if (isInvalid('name')) {
-              <span class="form__error">Введіть ваше ім'я (мінімум 2 символи)</span>
+              <span class="form__error">Enter your name (at least 2 characters)</span>
             }
           </div>
 
@@ -78,15 +84,15 @@
             <label class="form__label" for="f-email">Email *</label>
             <input id="f-email" class="form__input" type="email" formControlName="email" placeholder="your@email.com" autocomplete="email" />
             @if (isInvalid('email')) {
-              <span class="form__error">Введіть коректний email</span>
+              <span class="form__error">Enter a valid email address</span>
             }
           </div>
 
           <div class="form__field" [class.form__field--error]="isInvalid('message')">
-            <label class="form__label" for="f-msg">Повідомлення *</label>
-            <textarea id="f-msg" class="form__input form__textarea" formControlName="message" placeholder="Розкажіть про ваш захід, бажаний образ..."></textarea>
+            <label class="form__label" for="f-msg">Message *</label>
+            <textarea id="f-msg" class="form__input form__textarea" formControlName="message" placeholder="Tell me about your event and the look you want..."></textarea>
             @if (isInvalid('message')) {
-              <span class="form__error">Введіть повідомлення (мінімум 10 символів)</span>
+              <span class="form__error">Enter a message (at least 10 characters)</span>
             }
           </div>
 
@@ -95,7 +101,7 @@
           }
 
           <button type="submit" class="btn btn--primary form__submit" [disabled]="status() === 'sending'">
-            {{ status() === 'sending' ? 'Надсилається...' : 'Надіслати повідомлення' }}
+            {{ status() === 'sending' ? 'Sending...' : 'Send message' }}
           </button>
         </form>
       }
