@@ -8,28 +8,7 @@
 
 <section class="section">
   <div class="container">
-    <div class="services-list">
-      @for (cat of services; track cat.category) {
-        <div class="service-group">
-          <div class="service-group__header">
-            <span class="service-group__icon">{{ cat.icon }}</span>
-            <h2 class="service-group__title">{{ cat.category }}</h2>
-          </div>
-          <div class="service-group__items">
-            @for (item of cat.items; track item.name) {
-              <div class="price-row">
-                <div class="price-row__name">{{ item.name }}</div>
-                <div class="price-row__meta">
-                  <span class="price-row__duration">{{ item.duration }}</span>
-                  <span class="price-row__price">{{ item.price }}</span>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-      }
-    </div>
-
+   
     <div class="booking-cta">
       <p class="booking-cta__note">* Prices are approximate. Final cost is confirmed during consultation.</p>
       <a routerLink="/contacts" class="btn btn--primary">Book a consultation</a>

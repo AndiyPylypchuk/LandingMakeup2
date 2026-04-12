@@ -22,6 +22,30 @@
   }
 }
 
+.about-team {
+  &__inner {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 4rem;
+    align-items: start;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  &__content {
+    p {
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .btn { margin-top: 1.5rem; }
+  }
+}
+
 .skills {
   margin: 1.5rem 0;
 

@@ -13,16 +13,32 @@ export class HomeComponent implements OnInit {
   private readonly seo = inject(SeoService);
 
   services = [
-    { icon: '💍', title: 'Bridal makeup', desc: 'An unforgettable look for one of the most important days of your life.' },
-    { icon: '✨', title: 'Evening makeup', desc: 'Long-lasting, expressive makeup for parties and special events.' },
-    { icon: '🌸', title: 'Day makeup', desc: 'A fresh, natural style for daily life and business meetings.' },
-    { icon: '📸', title: 'Photo and video makeup', desc: 'Camera-ready looks that stay flawless in photos and on screen.' },
-  ];
+  {
+    icon: '💍',
+    title: 'Bridal glam',
+    desc: 'Luxury bridal makeup and hair with a long-wear, photo-ready finish — perfect for destination weddings and on-location services.',
+  },
+  {
+    icon: '✨',
+    title: 'Exceptional events',
+    desc: 'Polished full-glam looks for galas, premieres, birthdays, and VIP evenings — expressive, elegant, and made to last all night.',
+  },
+  {
+    icon: '🌸',
+    title: 'Fashion projects',
+    desc: 'Editorial and fashion makeup & hair for photoshoots, campaigns, runway, and creative productions — tailored to your concept and team.',
+  },
+  {
+    icon: '📸',
+    title: 'Education',
+    desc: '1:1 lessons and masterclasses for artists and clients — technique, product guidance, and camera-ready makeup for real-life and photos.',
+  },
+];
 
   ngOnInit(): void {
     this.seo.setPage({
-      title: 'Professional Makeup Artist in Düsseldorf',
-      description: 'Anna Pylypchuk is a professional makeup artist in Düsseldorf, NRW specializing in bridal, fashion week, and event makeup.',
+      title: 'Professional Makeup Artist in Düsseldorf, NRW',
+      description: 'Makeup artist based in Düsseldorf, NRW influencing beauty, fashion, and media. Specializing in bridal makeup & hair for destination weddings across Europe, as well as editorial and red carpet looks with a professional team and luxury, on-location service.',
     });
   }
 }
