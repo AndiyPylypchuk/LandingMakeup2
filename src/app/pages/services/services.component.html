@@ -8,7 +8,21 @@
 
 <section class="section">
   <div class="container">
-   
+    <div class="services-teasers">
+      @for (item of serviceSections; track item.id; let odd = $odd) {
+        <section class="service-teaser" [id]="item.id" [class.service-teaser--reverse]="odd">
+          <div class="service-teaser__image">
+            <img [src]="item.image" [alt]="item.imageAlt" loading="lazy" />
+          </div>
+          <div class="service-teaser__content">
+            <h2 class="section__title">{{ item.title }}</h2>
+            <p>{{ item.description }}</p>
+            <a routerLink="/contacts" class="btn btn--outline">Book this service</a>
+          </div>
+        </section>
+      }
+    </div>
+
     <div class="booking-cta">
       <p class="booking-cta__note">* Prices are approximate. Final cost is confirmed during consultation.</p>
       <a routerLink="/contacts" class="btn btn--primary">Book a consultation</a>

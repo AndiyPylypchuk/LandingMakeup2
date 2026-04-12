@@ -1,4 +1,74 @@
 
+.services-teasers {
+  display: grid;
+  gap: 3rem;
+}
+
+.service-teaser {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 2rem;
+  align-items: center;
+  scroll-margin-top: 6.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+
+  &--reverse {
+    grid-template-columns: 1.35fr 1fr;
+
+    .service-teaser__image {
+      order: 2;
+    }
+
+    .service-teaser__content {
+      order: 1;
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+
+      .service-teaser__image,
+      .service-teaser__content {
+        order: initial;
+      }
+    }
+  }
+
+  &__image {
+    border-radius: 0.85rem;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: rgba(255, 255, 255, 0.05);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__content {
+    padding: 0.25rem 0.5rem;
+
+    .section__title {
+      margin-bottom: 0.9rem;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+  }
+}
+
 .booking-cta {
   margin-top: 3rem;
   text-align: center;

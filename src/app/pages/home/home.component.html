@@ -43,11 +43,13 @@
     </div>
     <div class="services-grid">
       @for (s of services; track s.title) {
-        <div class="service-card">
-          <div class="service-card__icon">{{ s.icon }}</div>
+        <a class="service-card" [routerLink]="['/services']" [fragment]="s.anchor">
+          <div class="service-card__photo">
+            <img [src]="s.photo" [alt]="s.title" loading="lazy" />
+          </div>
           <h3 class="service-card__title">{{ s.title }}</h3>
           <p class="service-card__desc">{{ s.desc }}</p>
-        </div>
+        </a>
       }
     </div>
     <div class="section__cta">
