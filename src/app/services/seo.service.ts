@@ -24,9 +24,11 @@ export class SeoService {
 
   constructor() {
     this.injectOrganizationJsonLd();
-    this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => this.updateCanonical());
+    queueMicrotask(() => {
+      this.router.events
+        .pipe(filter((e) => e instanceof NavigationEnd))
+        .subscribe(() => this.updateCanonical());
+    });
   }
 
   setPage(cfg: SeoConfig): void {
