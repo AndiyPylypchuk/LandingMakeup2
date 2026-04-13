@@ -354,7 +354,7 @@ Re-deploy the updated `dist/landing-makeup/browser/` output to `public_html/`.
 
 ## 10. Local Mock Funnel Data
 
-Testing funnel pages locally requires a running PHP back-end and a database. The dev environment ships with a mock dataset so you can preview funnel pages with `npm start` without any server setup.
+Testing funnel pages locally against the real PHP back-end requires a database. However, the dev environment ships with a mock dataset so you can preview funnel pages with `npm start` without any server setup at all.
 
 ### How to enable
 
