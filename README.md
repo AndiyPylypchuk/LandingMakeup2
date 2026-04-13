@@ -1,6 +1,6 @@
 # Anna Pylypchuk — Makeup Artist Landing Site (V2)
 
-Production-ready Angular 19 SSR landing site with prerendering, SEO, funnel pages, and a Node.js/MariaDB back-end deployable to cPanel hosting via "Setup Node.js App".
+Angular 19 landing site with prerendering, SEO, funnel pages, and PHP API endpoints deployable to cPanel shared hosting.
 
 **Live domain:** https://www.annapylypchuk.com/
 
@@ -12,13 +12,12 @@ Production-ready Angular 19 SSR landing site with prerendering, SEO, funnel page
 2. [Project Structure](#2-project-structure)
 3. [SEO & Prerender Overview](#3-seo--prerender-overview)
 4. [Environment Configuration](#4-environment-configuration)
-5. [cPanel Deployment — Static Prerendered Output](#5-cpanel-deployment--static-prerendered-output)
-6. [cPanel Deployment — SSR Node App](#6-cpanel-deployment--ssr-node-app)
-7. [Node.js API Endpoints](#7-nodejs-api-endpoints)
-8. [MariaDB Setup via phpMyAdmin](#8-mariadb-setup-via-phpmyadmin)
-9. [Funnel Pages (`/v/:slug`)](#9-funnel-pages-vslug)
-10. [Adding / Removing a Prerendered Route](#10-adding--removing-a-prerendered-route)
-11. [Local Mock Funnel Data](#11-local-mock-funnel-data)
+5. [cPanel Deployment — Static + PHP API](#5-cpanel-deployment--static--php-api)
+6. [PHP API Endpoints](#6-php-api-endpoints)
+7. [MariaDB Setup via phpMyAdmin](#7-mariadb-setup-via-phpmyadmin)
+8. [Funnel Pages (`/v/:slug`)](#8-funnel-pages-vslug)
+9. [Adding / Removing a Prerendered Route](#9-adding--removing-a-prerendered-route)
+10. [Local Mock Funnel Data](#10-local-mock-funnel-data)
 
 ---
 
@@ -38,16 +37,12 @@ Production-ready Angular 19 SSR landing site with prerendering, SEO, funnel page
 # Install dependencies
 npm install
 
-# Start development server (with HMR, no SSR)
+# Start development server (with HMR, uses mock funnel data — no server needed)
 npm start
 # → http://localhost:4200
 
-# Build for production (SSR + prerender)
+# Build for production (static prerender output)
 npm run build
-
-# Run the SSR Node server locally (after building)
-npm run serve:ssr:landing-makeup
-# → http://localhost:4000
 ```
 
 ### Run tests
@@ -71,28 +66,28 @@ npm test -- --watch=false --browsers=ChromeHeadless   # CI / single run
 │   │   ├── shared/           # Header, Footer components
 │   │   ├── services/         # SeoService, FunnelService, ContactService, funnel.mock
 │   │   ├── app.routes.ts     # Route definitions
-│   │   ├── app.config.ts     # App-level providers (SSR, hydration, router)
+│   │   ├── app.config.ts     # App-level providers (HttpClient, hydration, router)
 │   │   └── app.config.server.ts
 │   ├── environments/
-│   │   ├── environment.ts           # Development defaults
+│   │   ├── environment.ts            # Development defaults (mockFunnel: true)
 │   │   └── environment.production.ts # Production values (swapped at build time)
 │   ├── index.html
 │   ├── main.ts / main.server.ts
-│   ├── server.ts             # Express SSR entry point
+│   ├── server.ts             # Angular SSR entry point (used at build time for prerender only)
 │   └── styles.scss           # Global SCSS design system
 ├── public/
 │   ├── robots.txt            # Allows all, disallows /v/
 │   └── sitemap.xml           # Static sitemap for indexable routes
 ├── api/
-│   ├── contact.php           # DEPRECATED — kept for reference only
-│   └── funnel.php            # DEPRECATED — kept for reference only
+│   ├── contact.php           # POST — contact form handler (PHP mail + validation)
+│   └── funnel.php            # GET  — fetch funnel row by slug from MariaDB
 └── database/
     └── schema.sql            # funnels table DDL + seed rows
 ```
 
-> **API** is now served directly by the Express SSR server (`src/server.ts`):
-> - `GET /api/funnel?slug=SLUG`
-> - `POST /api/contact`
+> **API** is served by PHP files deployed to `public_html/api/` on cPanel:
+> - `GET /api/funnel.php?slug=SLUG`
+> - `POST /api/contact.php`
 
 ---
 
@@ -135,139 +130,110 @@ Two environment files are used — the build toolchain swaps them automatically:
 | `src/environments/environment.ts` | `ng serve` (development) |
 | `src/environments/environment.production.ts` | `ng build` (production) |
 
-Edit `src/environments/environment.production.ts` to change:
+`src/environments/environment.production.ts`:
 
 ```ts
 export const environment = {
   production: true,
-  apiBase: '/api',                             // relative path to Node API endpoints
+  apiBase: '/api',                                // relative path to PHP API endpoints
   canonicalBase: 'https://www.annapylypchuk.com', // canonical domain (no trailing slash)
+  mockFunnel: false,
 };
 ```
 
-> **`apiBase`** — keep `/api` when the Angular app and the Node.js server run on the same origin (the recommended setup). The API routes `/api/funnel` and `/api/contact` are served directly by the Express SSR server.
+> **`apiBase`** — keep `/api` when both the Angular static files and the PHP files are served from the same origin (the recommended cPanel setup).
 
 ---
 
-## 5. cPanel Deployment — Static Prerendered Output (Limited)
+## 5. cPanel Deployment — Static + PHP API
 
-> **Note:** This mode serves pre-rendered HTML only. The contact form and funnel pages require the Node.js SSR server (§6) to function — without it, API calls will fail. Use §6 for a fully working production deployment.
+This deployment requires **no Node.js runtime** on the server — only PHP (available on all cPanel shared hosting plans). Total upload size is well under 50 MB.
 
-### Steps
+### Overview
+
+| What | Where on server |
+|------|----------------|
+| Angular browser build | `public_html/` (contents of `dist/landing-makeup/browser/`) |
+| PHP endpoints | `public_html/api/contact.php`, `public_html/api/funnel.php` |
+| `.htaccess` | `public_html/.htaccess` |
+| MariaDB schema | imported via phpMyAdmin |
+
+### Step 1 — Build locally
 
 ```bash
-# 1. Build on your local machine (or CI)
 npm run build
 ```
 
-The build output is in `dist/landing-makeup/browser/`.
+Output will be in `dist/landing-makeup/browser/`.
 
-2. **Upload via cPanel File Manager** (or FTP/SFTP):
-   - Upload the **contents** of `dist/landing-makeup/browser/` to `public_html/` (or your subdomain root).
+### Step 2 — Upload the Angular browser build
 
-3. **Create `.htaccess`** in `public_html/` (Angular handles routing client-side via the prerendered index fallback):
+Using cPanel **File Manager** (or FTP/SFTP):
+
+- Upload the **contents** of `dist/landing-makeup/browser/` to `public_html/`.
+- Make sure `public_html/index.html` exists after upload.
+
+### Step 3 — Upload PHP endpoints
+
+Create the `api/` subfolder in `public_html/` and upload both PHP files:
+
+```
+public_html/
+  api/
+    contact.php    ← from api/contact.php
+    funnel.php     ← from api/funnel.php
+```
+
+### Step 4 — Configure PHP DB credentials
+
+Open `public_html/api/funnel.php` in File Manager and update the fallback values, **or** set environment variables in your hosting control panel:
+
+| Variable | Description |
+|----------|-------------|
+| `DB_HOST` | `localhost` (usually) |
+| `DB_NAME` | Database name as shown in cPanel (e.g. `cpaneluser_makeup`) |
+| `DB_USER` | Database user (e.g. `cpaneluser_dbuser`) |
+| `DB_PASS` | Database password |
+
+If your host doesn't support `getenv()` variables easily, edit the fallback defaults directly in `funnel.php`:
+
+```php
+$host = 'localhost';
+$db   = 'cpaneluser_makeup';
+$user = 'cpaneluser_dbuser';
+$pass = 'your_db_password';
+```
+
+### Step 5 — Create `.htaccess` for SPA routing
+
+Create (or edit) `public_html/.htaccess` with the following content:
 
 ```apache
 Options -MultiViews
 RewriteEngine On
 
-# Serve pre-rendered HTML for known routes
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Don't rewrite real files or directories (including /api/*)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Fall back to index.html for all other routes (Angular client-side routing)
 RewriteRule ^ index.html [L]
 ```
 
-4. Verify `https://www.annapylypchuk.com/` loads from static HTML (view source should show full content).
+### Step 6 — Verify
+
+1. Visit `https://www.annapylypchuk.com/` — the site should load.
+2. Navigate to `/about`, `/services`, `/contacts` — they should work (prerendered HTML is served directly).
+3. Navigate to `/v/summer-offer` — should load the funnel page (PHP + DB query).
+4. Submit the contact form — you should receive an email at `pylyp69de@gmail.com`.
+5. View page source on `/` — you should see full HTML content (not just `<app-root>`).
 
 ---
 
-## 6. cPanel Deployment — SSR Node App
+## 6. PHP API Endpoints
 
-**Recommended** — serves both the Angular SSR app and the Node.js API from a single Express process. Requires cPanel with **"Setup Node.js App"** (Node.js Selector).
-
-### Build
-
-```bash
-npm run build
-```
-
-Output directories:
-- `dist/landing-makeup/browser/` — static assets
-- `dist/landing-makeup/server/` — SSR Node bundle (entry: `server.mjs`)
-
-### cPanel Setup Node.js App
-
-1. Log into cPanel → **Setup Node.js App** → **Create Application**.
-2. Fill in:
-
-   | Field | Value |
-   |-------|-------|
-   | Node.js version | 20.x (LTS) |
-   | Application mode | Production |
-   | Application root | `landing-makeup` (a folder in your home directory) |
-   | Application URL | `yourdomain.com` |
-   | Application startup file | `dist/landing-makeup/server/server.mjs` |
-
-3. Click **Create**, then open the virtual environment terminal (or SSH) and run:
-
-   ```bash
-   cd ~/landing-makeup
-   # Upload / extract build output here first, then:
-   npm install --omit=dev
-   ```
-
-4. Set environment variables in the cPanel Node.js App panel:
-
-   **Required — Database (MariaDB):**
-
-   | Variable | Example value | Notes |
-   |----------|---------------|-------|
-   | `DB_HOST` | `localhost` | Usually `localhost` on cPanel |
-   | `DB_PORT` | `3306` | Default MariaDB port |
-   | `DB_NAME` | `cpaneluser_makeup` | Database name from cPanel |
-   | `DB_USER` | `cpaneluser_dbuser` | Database user from cPanel |
-   | `DB_PASS` | `your_db_password` | Database password |
-
-   **Required — SMTP Email (Nodemailer):**
-
-   | Variable | Example value | Notes |
-   |----------|---------------|-------|
-   | `SMTP_HOST` | `mail.annapylypchuk.com` | Your SMTP server hostname |
-   | `SMTP_PORT` | `587` | 587 = STARTTLS, 465 = SSL |
-   | `SMTP_SECURE` | `false` | `true` only for port 465 |
-   | `SMTP_USER` | `noreply@annapylypchuk.com` | SMTP login |
-   | `SMTP_PASS` | `your_smtp_password` | SMTP password |
-   | `MAIL_TO` | `pylyp69de@gmail.com` | Recipient of contact form emails |
-
-   > **If SMTP is not configured** the contact form POST will return a 500 error. Set at least `SMTP_HOST`, `SMTP_USER`, and `SMTP_PASS` for email to work.
-
-   **Other:**
-
-   | Variable | Example value |
-   |----------|---------------|
-   | `NODE_ENV` | `production` |
-   | `PORT` | assigned by cPanel automatically |
-
-5. Create `.htaccess` in `public_html/` to proxy all traffic to the Node SSR server:
-
-   ```apache
-   RewriteEngine On
-
-   # Proxy all requests to the Node SSR server (serves both the app and /api/*)
-   RewriteRule ^(.*)$ http://127.0.0.1:<NODE_PORT>/$1 [P,L]
-   ```
-
-   > Replace `<NODE_PORT>` with the port shown in the cPanel Node.js App panel.
-
-6. Click **Restart** in the Node.js App panel.
-
----
-
-## 7. Node.js API Endpoints
-
-Both API routes are implemented in `src/server.ts` and served by the Express SSR server.
-
-### `GET /api/funnel?slug=SLUG`
+### `GET /api/funnel.php?slug=SLUG`
 
 Returns the funnel row as JSON, or `404` if the slug is missing or `is_active = 0`.
 
@@ -285,11 +251,11 @@ Returns the funnel row as JSON, or `404` if the slug is missing or `is_active = 
 }
 ```
 
-**Database credentials** are read from environment variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`). See §6 for the full list.
+**Database credentials** are read from environment variables (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`) with inline fallback defaults.
 
-### `POST /api/contact`
+### `POST /api/contact.php`
 
-Accepts `application/json`.
+Accepts `application/json` or `application/x-www-form-urlencoded`.
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -300,28 +266,26 @@ Accepts `application/json`.
 
 Returns `{"success": true, "message": "..."}` or a 4xx/5xx error with `{"success": false, "message": "..."}`.
 
-**SMTP credentials** are read from environment variables (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `MAIL_TO`). See §6 for the full list.
-
-> **Note:** The `api/contact.php` and `api/funnel.php` files are kept for reference only and are **not** used by the application. Do not deploy them to `public_html/api/` — the Node.js server handles all `/api/*` requests.
+Email is sent via PHP `mail()` to `pylyp69de@gmail.com`.
 
 ---
 
-## 8. MariaDB Setup via phpMyAdmin
+## 7. MariaDB Setup via phpMyAdmin
 
 1. In cPanel → **MySQL Databases**: create a database (e.g. `cpaneluser_makeup`) and a user, then grant the user **ALL PRIVILEGES** on that database.
 2. Open **phpMyAdmin**, select the new database.
 3. Click the **SQL** tab, paste the contents of `database/schema.sql`, and click **Go**.
    - This creates the `funnels` table and inserts two seed rows.
 4. Confirm the table exists under the **Structure** tab.
-5. Set the DB credentials as environment variables (see §6 above).
+5. Update `public_html/api/funnel.php` with the correct DB credentials (see §5 Step 4).
 
 ---
 
-## 9. Funnel Pages (`/v/:slug`)
+## 8. Funnel Pages (`/v/:slug`)
 
 Funnel pages are **intentionally non-indexed**:
 
-- `FunnelComponent` sets `<meta name="robots" content="noindex,nofollow">` via `SeoService`.
+- `FunnelComponent` sets `<meta name="robots" content="noindex,nofollow">` via Angular's `Meta` service.
 - `public/robots.txt` has `Disallow: /v/`.
 - `public/sitemap.xml` does **not** include `/v/` URLs.
 - Funnel routes are **not** listed in `prerender-routes.txt`.
@@ -329,8 +293,8 @@ Funnel pages are **intentionally non-indexed**:
 ### How `/v/:slug` works
 
 1. The Angular router loads `FunnelComponent` for any `/v/<slug>` path.
-2. On init, the component calls `GET /api/funnel?slug=<slug>` (served by the Express SSR server).
-3. If the API returns 404 or the slug is inactive, the component redirects to the 404 page.
+2. On init, the component calls `GET /api/funnel.php?slug=<slug>`.
+3. If the API returns 404 or the slug is inactive, the component shows the 404 page.
 4. Otherwise it renders: YouTube embed, body text, and a CTA button linking to the Telegram URL stored in the DB.
 
 ### Adding a new funnel row
@@ -359,11 +323,11 @@ The page will be immediately accessible at `https://www.annapylypchuk.com/v/my-n
 UPDATE `funnels` SET `is_active` = 0 WHERE `slug` = 'my-new-offer';
 ```
 
-Visitors will receive a 404 response from the API and be redirected to the 404 page.
+Visitors will receive a 404 response from the API and be shown the 404 page.
 
 ---
 
-## 10. Adding / Removing a Prerendered Route
+## 9. Adding / Removing a Prerendered Route
 
 Open `prerender-routes.txt` in the project root. Each line is one route to prerender:
 
@@ -384,13 +348,13 @@ After editing the file, rebuild:
 npm run build
 ```
 
-Re-deploy the updated `dist/landing-makeup/browser/` output to your server.
+Re-deploy the updated `dist/landing-makeup/browser/` output to `public_html/`.
 
 ---
 
-## 11. Local Mock Funnel Data
+## 10. Local Mock Funnel Data
 
-Testing funnel pages locally normally requires a running PHP back-end and a database. The dev environment ships with a mock dataset so you can preview funnel pages with `npm start` and no server setup at all.
+Testing funnel pages locally requires a running PHP back-end and a database. The dev environment ships with a mock dataset so you can preview funnel pages with `npm start` without any server setup.
 
 ### How to enable
 
@@ -400,7 +364,7 @@ Open `src/environments/environment.ts` and set:
 mockFunnel: true,
 ```
 
-This flag is already `true` in the development environment file and is explicitly set to `false` in the production environment file (`environment.production.ts`), so mocking is never active in production builds.
+This flag is already `true` in the development environment file and is explicitly set to `false` in `environment.production.ts`, so mocking is never active in production builds.
 
 ### Available mock slugs
 
@@ -411,7 +375,7 @@ This flag is already `true` in the development environment file and is explicitl
 ### How it works
 
 - When `mockFunnel` is `true`, `FunnelService.getBySlug()` returns data from `src/app/services/funnel.mock.ts` via `of()` with a 300 ms simulated delay — no network request is made.
-- Any slug that is **not** in the mock map triggers a simulated 404, causing `FunnelComponent` to display the "Not Found" page exactly as it would in production.
+- Any slug **not** in the mock map triggers a simulated 404, causing `FunnelComponent` to display the "Not Found" page exactly as it would in production.
 
 ### Adding more mock slugs
 
@@ -435,4 +399,5 @@ Edit `src/app/services/funnel.mock.ts` and add an entry to the `MOCK_FUNNELS` ma
 Then visit `http://localhost:4200/v/my-new-slug`.
 
 ---
+
 
