@@ -10,7 +10,7 @@
   <div class="container about-main__inner">
     <div class="about-main__photo">
       <div class="img-placeholder img-placeholder--portrait">
-        <span>Photo</span>
+        <img [src]="'/assets/images/annaPylypchuk2.jpeg'" [alt]="'Anna Pylypchuk'" loading="lazy" />
       </div>
     </div>
     <div class="about-main__content">
@@ -67,7 +67,7 @@
     </div>
     <div class="about-main__photo">
       <div class="img-placeholder img-placeholder--portrait">
-        <span>Photo</span>
+         <img [src]="'/assets/images/2.jpg'" [alt]="'Anna Pylypchuk team'" loading="lazy" />
       </div>
     </div>
     </div>
@@ -80,50 +80,15 @@
       <h2 class="section__title">Why clients choose us</h2>
     </div>
     <div class="values__grid">
+      @for (value of values; track value.title) {
       <div class="value-card">
         <div class="value-card__photo">
-          <img
-            src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80"
-            alt="Makeup artist preparing a client"
-            loading="lazy"
-          />
+          <img [src]="value.photo" [alt]="value.alt" loading="lazy" />
         </div>
-        <h3>Experienced experts</h3>
-        <p>I train regularly with top industry experts to offer you modern techniques and trends.</p>
+        <h3>{{ value.title }}</h3>
+        <p>{{ value.desc }}</p>
       </div>
-      <div class="value-card">
-        <div class="value-card__photo">
-          <img
-            src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80"
-            alt="Professional makeup products close-up"
-            loading="lazy"
-          />
-        </div>
-        <h3>High-quality products</h3>
-        <p>I work only with trusted professional brands and skin-safe formulas.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-card__photo">
-          <img
-            src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"
-            alt="Consultation with a beauty client"
-            loading="lazy"
-          />
-        </div>
-        <h3>Personal approach</h3>
-        <p>We listen carefully and create a look tailored to your features, style, and event.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-card__photo">
-          <img
-            src="https://images.unsplash.com/photo-1487412912498-0447578fcca8?auto=format&fit=crop&w=900&q=80"
-            alt="Beauty preparation running on schedule"
-            loading="lazy"
-          />
-        </div>
-        <h3>Punctuality</h3>
-        <p>We value your time and always work within the agreed schedule.</p>
-      </div>
+      }
     </div>
   </div>
 </section>

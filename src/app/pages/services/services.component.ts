@@ -19,7 +19,7 @@ export class ServicesComponent implements OnInit {
       description:
         'Your special day will be perfect with our team of beauty experts.',
       image:
-        'https://images.unsplash.com/photo-1522336284037-91f7da073525?auto=format&fit=crop&w=1400&q=80',
+        '/assets/images/wedding5.jpeg',
       imageAlt: 'Bridal makeup and hairstyle preparation',
     },
     {
@@ -46,7 +46,7 @@ export class ServicesComponent implements OnInit {
       description:
         'We are preparing the model for the shoot and providing touch up service during the session.',
       image:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1400&q=80',
+         '/assets/images/3.jpeg',
       imageAlt: 'Model preparation for photoshoot',
     },
     {
@@ -55,7 +55,7 @@ export class ServicesComponent implements OnInit {
       description:
         'Professional beauty styling for gala nights, red carpet moments, and private celebrations.',
       image:
-        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80',
+         '/assets/images/2.jpg',
       imageAlt: 'Elegant makeup for exceptional events',
     },
     {
@@ -64,7 +64,7 @@ export class ServicesComponent implements OnInit {
       description:
         'Personal lessons and masterclasses for artists and clients who want to build confident, professional techniques.',
       image:
-        'https://images.unsplash.com/photo-1525904097878-94fb15835963?auto=format&fit=crop&w=1400&q=80',
+        '/assets/images/studio2.jpeg',
       imageAlt: 'Beauty education and masterclass',
     },
   ];

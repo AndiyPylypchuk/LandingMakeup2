@@ -33,53 +33,60 @@ export class PortfolioComponent implements OnInit {
     {
       title: 'Modern Bridal Glow',
       category: 'Bridal',
-      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80',
+      image:
+        '/assets/images/wedding3.jpg',
       alt: 'Bride portrait with elegant makeup',
       size: 'tall',
     },
     {
       title: 'Soft Editorial Skin',
       category: 'Editorial',
-      image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80',
+      image:
+        '/assets/images/1.jpg',
       alt: 'Editorial beauty close-up',
       size: 'wide',
     },
     {
       title: 'Evening Red Carpet',
       category: 'Red Carpet',
-      image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=80',
+      image:
+        '/assets/images/3.jpeg',
       alt: 'Elegant red carpet style makeup',
     },
     {
       title: 'Destination Wedding',
       category: 'Bridal',
-      image: 'https://images.unsplash.com/photo-1526045478516-99145907023c?auto=format&fit=crop&w=1400&q=80',
+      image:
+        '/assets/images/wedding5.jpeg',
       alt: 'Destination wedding bridal look',
       size: 'tall',
     },
     {
       title: 'Studio Beauty Campaign',
       category: 'Beauty Campaigns',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1400&q=80',
+      image:
+       '/assets/images/studio1.jpeg',
       alt: 'Studio beauty campaign photoshoot',
     },
     {
       title: 'Fashion Portrait',
       category: 'Photoshoot',
-      image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1400&q=80',
+      image:
+        '/assets/images/studio4.jpg',
       alt: 'Fashion portrait with polished makeup',
       size: 'wide',
     },
     {
       title: 'Classic Bridal Elegance',
       category: 'Bridal',
-      image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1400&q=80',
+      image: '/assets/images/wedding5.jpeg',
       alt: 'Classic bridal elegance close-up',
     },
     {
       title: 'Masterclass Session',
       category: 'Education',
-      image: 'https://images.unsplash.com/photo-1525904097878-94fb15835963?auto=format&fit=crop&w=1400&q=80',
+      image:
+        '/assets/images/studio2.jpeg',
       alt: 'Professional beauty education session',
     },
   ];
