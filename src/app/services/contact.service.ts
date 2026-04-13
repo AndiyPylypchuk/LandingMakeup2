@@ -21,6 +21,6 @@ export class ContactService {
   private readonly apiBase = environment.apiBase;
 
   send(payload: ContactPayload): Observable<ContactResponse> {
-    return this.http.post<ContactResponse>(`${this.apiBase}/contact`, payload);
+    return this.http.post<ContactResponse>(`${this.apiBase}/contact.php`, payload);
   }
 }

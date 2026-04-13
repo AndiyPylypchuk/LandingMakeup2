@@ -1,11 +1,12 @@
 <?php
 /**
- * DEPRECATED — This PHP endpoint is no longer used.
- * API is now handled by the Node.js/Express SSR server (src/server.ts).
- * Endpoint: POST /api/contact
- * Kept for reference only.
+ * Contact form API endpoint.
+ * Endpoint: POST /api/contact.php
+ * Accepts JSON or form-encoded payload: name, email, message, website (honeypot).
+ * Sends email via PHP mail().
  */
 
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: https://www.annapylypchuk.com');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');

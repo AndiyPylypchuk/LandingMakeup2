@@ -1,11 +1,11 @@
 <?php
 /**
- * DEPRECATED — This PHP endpoint is no longer used.
- * API is now handled by the Node.js/Express SSR server (src/server.ts).
- * Endpoint: GET /api/funnel?slug=SLUG
- * Kept for reference only.
+ * Funnel API endpoint.
+ * Endpoint: GET /api/funnel.php?slug=SLUG
+ * Returns JSON funnel row from MariaDB, or 404 if missing/inactive.
  */
 
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: https://www.annapylypchuk.com');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
