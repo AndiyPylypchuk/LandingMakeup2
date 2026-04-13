@@ -1,0 +1,48 @@
+<section class="page-hero portfolio-hero">
+  <div class="container">
+    <span class="section__label">Portfolio</span>
+    <h1 class="page-hero__title">Signature Looks</h1>
+    <p class="page-hero__sub">
+      A curated selection of bridal, editorial, and event beauty looks created for real clients,
+      campaigns, and international productions.
+    </p>
+  </div>
+</section>
+
+<section class="section portfolio">
+  <div class="container">
+    <div class="portfolio__head">
+      <h2 class="section__title">Beauty stories in every frame</h2>
+      <p class="section__desc">
+        Inspired by premium portfolio-style galleries, this collection highlights polished skin,
+        modern textures, and long-wear artistry tailored for camera and real life.
+      </p>
+    </div>
+
+    <div class="portfolio__filters" aria-label="Portfolio categories">
+      @for (cat of categories; track cat) {
+        <span class="portfolio-chip">{{ cat }}</span>
+      }
+    </div>
+
+    <div class="portfolio-grid">
+      @for (item of items; track item.title) {
+        <article
+          class="portfolio-card"
+          [class.portfolio-card--tall]="item.size === 'tall'"
+          [class.portfolio-card--wide]="item.size === 'wide'"
+        >
+          <img [src]="item.image" [alt]="item.alt" loading="lazy" />
+          <div class="portfolio-card__overlay">
+            <span class="portfolio-card__category">{{ item.category }}</span>
+            <h3>{{ item.title }}</h3>
+          </div>
+        </article>
+      }
+    </div>
+
+    <div class="portfolio__cta">
+      <a routerLink="/contacts" class="btn btn--primary">Book your date</a>
+    </div>
+  </div>
+</section>

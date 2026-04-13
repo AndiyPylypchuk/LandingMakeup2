@@ -58,6 +58,36 @@
   </div>
 </section>
 
+<!-- PORTFOLIO PREVIEW -->
+<section class="section portfolio-preview">
+  <div class="container">
+    <div class="section__head portfolio-preview__head">
+      <span class="section__label">Portfolio</span>
+      <h2 class="section__title">Beauty stories in every frame</h2>
+      <p class="section__desc">A preview of bridal, editorial, and event looks. Explore the full collection on the portfolio page.</p>
+    </div>
+    <div class="portfolio-preview__grid">
+      @for (item of portfolioPreview; track item.title) {
+        <a
+          class="portfolio-preview__card"
+          [class.portfolio-preview__card--tall]="item.size === 'tall'"
+          [class.portfolio-preview__card--wide]="item.size === 'wide'"
+          routerLink="/portfolio"
+        >
+          <img [src]="item.image" [alt]="item.title" loading="lazy" />
+          <div class="portfolio-preview__overlay">
+            <span>{{ item.category }}</span>
+            <h3>{{ item.title }}</h3>
+          </div>
+        </a>
+      }
+    </div>
+    <div class="section__cta">
+      <a routerLink="/portfolio" class="btn btn--outline">View full portfolio</a>
+    </div>
+  </div>
+</section>
+
 <!-- CTA BANNER -->
 <section class="cta-banner">
   <div class="container cta-banner__inner">

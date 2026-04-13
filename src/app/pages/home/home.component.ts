@@ -15,46 +15,81 @@ export class HomeComponent implements OnInit {
   services = [
     {
       anchor: 'bridal-makeup-hairstyle',
-      photo: 'https://images.unsplash.com/photo-1522336284037-91f7da073525?auto=format&fit=crop&w=1200&q=80',
-      title: 'Bridal Makeup & Hairstyle',
-      desc: 'Your special day will be perfect with our team of beauty experts.',
-    },
-    {
-      anchor: 'trial-session',
-      photo: 'https://images.unsplash.com/photo-1526045478516-99145907023c?auto=format&fit=crop&w=1200&q=80',
-      title: 'Trial Session',
-      desc: 'A trial helps you feel relaxed and confident before your most memorable day.',
-    },
-    {
-      anchor: 'touch-up-service',
-      photo: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1200&q=80',
-      title: 'Touch up Service',
-      desc: 'Stay polished through emotions, photos, and kisses with on-site touch-up support.',
+      photo:
+        'https://images.unsplash.com/photo-1522336284037-91f7da073525?auto=format&fit=crop&w=1200&q=80',
+      title: 'Bridal glam',
+      desc: 'Luxury bridal makeup and hair with a long-wear, photo-ready finish — perfect for destination weddings and on-location services.',
     },
     {
       anchor: 'photoshoot-service',
-      photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80',
-      title: 'Photoshoot service',
-      desc: 'Model preparation and continuous touch-ups for flawless shoot results.',
+      photo:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80',
+      title: 'Fashion projects',
+      desc: 'Editorial and fashion makeup & hair for photoshoots, campaigns, runway, and creative productions — tailored to your concept and team.',
     },
     {
       anchor: 'exceptional-events',
-      photo: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
+      photo:
+        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
       title: 'Exceptional events',
-      desc: 'Refined glam for premieres, galas, birthdays, and VIP evenings.',
+      desc: 'Polished full-glam looks for galas, premieres, birthdays, and VIP evenings — expressive, elegant, and made to last all night.',
     },
     {
       anchor: 'education',
-      photo: 'https://images.unsplash.com/photo-1525904097878-94fb15835963?auto=format&fit=crop&w=1200&q=80',
+      photo:
+        'https://images.unsplash.com/photo-1525904097878-94fb15835963?auto=format&fit=crop&w=1200&q=80',
       title: 'Education',
-      desc: 'Hands-on lessons and masterclasses for artists and beauty enthusiasts.',
+      desc: '1:1 lessons and masterclasses for artists and clients — technique, product guidance, and camera-ready makeup for real-life and photos.',
+    },
+  ];
+
+  portfolioPreview = [
+    {
+      title: 'Modern Bridal Glow',
+      image:
+        'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1300&q=80',
+      category: 'Bridal',
+      size: 'tall',
+    },
+    {
+      title: 'Editorial Skin Focus',
+      image:
+        'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1300&q=80',
+      category: 'Editorial',
+      size: 'wide',
+    },
+    {
+      title: 'Destination Wedding',
+      image:
+        'https://images.unsplash.com/photo-1526045478516-99145907023c?auto=format&fit=crop&w=1300&q=80',
+      category: 'Bridal',
+    },
+    {
+      title: 'Red Carpet Evening',
+      image:
+        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1300&q=80',
+      category: 'Events',
+      size: 'tall',
+    },
+    {
+      title: 'Studio Beauty Campaign',
+      image:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1300&q=80',
+      category: 'Campaign',
+    },
+    {
+      title: 'Masterclass Moment',
+      image:
+        'https://images.unsplash.com/photo-1525904097878-94fb15835963?auto=format&fit=crop&w=1300&q=80',
+      category: 'Education',
     },
   ];
 
   ngOnInit(): void {
     this.seo.setPage({
       title: 'Professional Makeup Artist in Düsseldorf, NRW',
-      description: 'Makeup artist based in Düsseldorf, NRW influencing beauty, fashion, and media. Specializing in bridal makeup & hair for destination weddings across Europe, as well as editorial and red carpet looks with a professional team and luxury, on-location service.',
+      description:
+        'Makeup artist based in Düsseldorf, NRW influencing beauty, fashion, and media. Specializing in bridal makeup & hair for destination weddings across Europe, as well as editorial and red carpet looks with a professional team and luxury, on-location service.',
     });
   }
 }
